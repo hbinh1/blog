@@ -1,0 +1,21 @@
+{% extends "blog/base.html" %}
+{% load blog_tags %}
+{% load static %}
+{% block title %}My Blog{% endblock %}
+
+{% block content %}
+{% for post in posts %}
+<a href="{{ post.get_absolute_url }}">
+<div class="post">
+  {% if post.photo %}
+  <img src="{{ post.photo.url }}" alt="Post image">
+  {% endif %}
+  <h2>{{ post.title }}</h2>
+  <p>{{ post.body|markdown|truncatewords_html:10 }}</p>
+</a>
+</div>
+
+
+{% endfor %}
+
+{% endblock %}

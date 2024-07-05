@@ -1,0 +1,310 @@
+{% load blog_tags %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Blog Post</title>
+    <style>
+        a {
+            text-decoration: none;
+            color: inherit;
+        }       
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            overflow: hidden;
+        }
+        .comment-text p {
+            margin: 0 0 0 12px;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        .detail {
+            flex: 1 0 100%;
+            line-height: 10px;
+            position: static;
+            background: #f4f4f4;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .detail h2 {
+            text-transform: capitalize;
+            text-align: center;
+        }
+        .detail .content {
+            margin: 0 10px 0 10px;
+        }
+        div.detail.content p {
+            margin: 0 15px 0 15px;
+        }
+        .detail p.post-info {
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        div.post h2 {
+            flex: 1 0 100%;
+            text-align: center;
+        }
+        .content p {
+            margin: 0 0 0 0;
+        }
+        .similar-post {
+            flex: 1 0 100%;
+            line-height: 10px;
+            position: static;
+        }
+        .similar-post h2 {
+            text-align: center;
+        }
+        .similar-post .post{
+            display: flex;
+            margin: auto;
+        }
+        .similar-post h2{
+            padding: 10px;
+        }
+
+        /* .detail img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 100%;
+            height: 200px;
+        } */
+
+        .search-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .search-container input[type="text"] {
+            padding: 10px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .search-container input[type="submit"] {
+            padding: 10px 20px;
+            border: none;
+            background: #333;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .tag {
+            display: flex;
+            margin: auto;
+            justify-content: center;
+            align-items: center;
+        }
+        .tag a {
+            display: table;
+            padding: 10px 20px;
+            border: none;
+            background: #9b4848;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+	    section.main {
+            display: contents;
+        }
+
+        .posts {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .post {
+            background: #f4f4f4;
+            margin: 10px;
+            width: 100%;
+            max-width: 300px;
+            border-radius: 8px;
+            box-sizing: border-box;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .post img {
+            max-width: 100%;
+            height: auto;
+            border-top-right-radius: 8px;
+            border-top-left-radius: 8px;
+        }
+        .post h2 {
+            margin-top: 0;
+            text-transform: uppercase;
+        }
+        .post p {
+            text-align: left;
+            padding: 0px 20px 0px 20px;
+        }
+        .post:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            margin-top: auto;
+        }
+        .pagination, .pagination-comment {
+            text-align: center;
+            margin: auto;
+        }
+        .pagination a, .pagination-comment a {
+            color: #333;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            margin: auto;
+        }
+        .pagination a.active, .pagination-comment a.active {
+            background-color: #333;
+            color: white;
+            border: 1px solid #333;
+        }
+        div.comment-form {
+            display: flex;
+            width: 100%;
+        }
+        .comment-form {
+            max-width: 100%;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            position: relative;
+            flex-flow: row wrap;
+        }
+        .comment-form h2 {
+            text-align: center;
+        }
+        .comment-form label {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .comment-form input, .comment-form textarea {
+            width: 93%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .comment-form input[type="submit"] {
+            background: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .comment-form form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        .comments {
+            margin-top: 40px;
+        }
+        .comments h3 {
+            margin-top: 0;
+        }
+        .comment {
+            background: #f4f4f4;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex: 1 0 100%;
+        }
+        .comment-title {            
+            flex: 1 0 100%;
+            text-align: center;
+        }
+        .comment .comment-meta {
+            font-size: 0.9em;
+            color: #666;
+            margin: 0 0 0 10px;
+        }
+        .comment .comment-text {
+            margin: 0;
+        }
+        @media (min-width: 768px) {
+            .post {
+                width: 45%;
+            }
+        }
+        @media (min-width: 1024px) {
+            .post {
+                width: 30%;
+            }
+            .main, .sidebar {
+                display: inline-block;
+                vertical-align: top;
+            }
+            .main {
+                width: 70%;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href='/blog'><h1>While Crypto</h1></a>
+        </div>
+    </header>
+
+    
+
+    <div class="container">
+        <form method="get" action="{% url 'blog:post_search' %}">
+            <div class="search-container">
+              <input name="query" type="text" placeholder="Search...">
+              <input type="submit" value="Search">
+            </div>
+        </form>
+        <section class="main">          
+            <div class="posts">         
+              {% block content %}
+              {% endblock %}    
+            </div> 
+            <div class="pagination">    
+              {% for pg in page_range %}
+                {% if posts.number == pg %}
+                  <a href="?page={{pg}}" class="active">{{pg}}</a>
+                {% else %}
+                  <a href="?page={{pg}}" class="btn">{{pg}}</a>
+                {% endif %}
+              {% endfor %}  
+            </div>             
+        </section>
+    </div>
+    <footer>
+            <p>My Blog &copy; 2024</p>
+    </footer>
+</body>
+</html>
